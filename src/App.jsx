@@ -8,13 +8,30 @@ import Analytics from './components/Analytics';
 import SettingsPage from './components/SettingsPage';
 
 function AppContent() {
+  // State variables
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isFormOpen, setIsFormOpen] = useState(false);
 
+  // Callback functions
+  const handleAddExpense = () => setIsFormOpen(true);
+  const handleViewGoals = () => setActiveTab('dashboard');
+  const handleViewAnalytics = () => setActiveTab('analytics');
+  const handleExportData = () => setActiveTab('settings');
+  const handleOpenSettings = () => setActiveTab('settings');
+
+  // Render the active tab content
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard />;
+        return (
+          <Dashboard
+            onAddExpense={handleAddExpense}
+            onViewGoals={handleViewGoals}
+            onViewAnalytics={handleViewAnalytics}
+            onExportData={handleExportData}
+            onOpenSettings={handleOpenSettings}
+          />
+        );
       case 'analytics':
         return <Analytics />;
       case 'settings':
@@ -45,7 +62,7 @@ function AppContent() {
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        onClick={() => setIsFormOpen(true)}
+        onClick={handleAddExpense}
         className="fixed bottom-28 right-6 z-50 bg-accent-gradient p-5 rounded-full shadow-futuristic-hover neon-glow"
       >
         <Plus className="w-6 h-6 text-[#1A1A1A]" />

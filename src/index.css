@@ -12,6 +12,49 @@ body {
   color: #ECF0F1;
 }
 
+/* Light Theme Variables */
+.light-theme {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-card: #ffffff;
+  --text-primary: #1A1A1A;
+  --text-secondary: #666666;
+  --text-accent: #00D1FF;
+  --border-color: #e0e0e0;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme {
+  --bg-primary: #1A1A1A;
+  --bg-secondary: #2C3E50;
+  --bg-card: #2C3E50;
+  --text-primary: #ECF0F1;
+  --text-secondary: #BDC3C7;
+  --text-accent: #00D1FF;
+  --border-color: #34495E;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Update existing styles to use CSS variables */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
 /* Futuristic Glass Morphism */
 .glass-futuristic {
   background: rgba(42, 42, 42, 0.25);

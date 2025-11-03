@@ -13,10 +13,9 @@ const AIInsights = () => {
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
     
-    // Analyze spending patterns
     const monthlyExpenses = expenses.filter(exp => {
       const expDate = new Date(exp.date);
-      return expDate.getMonth() === currentMonth && 
+      return expDate.getMonth() === currentMonth &&
              expDate.getFullYear() === currentYear &&
              exp.type === 'expense';
     });
@@ -25,7 +24,7 @@ const AIInsights = () => {
       const categoryExpenses = monthlyExpenses.filter(exp => exp.categoryId === category.id);
       const total = categoryExpenses.reduce((sum, exp) => sum + exp.amount, 0);
       const avgPerTransaction = categoryExpenses.length > 0 ? total / categoryExpenses.length : 0;
-      
+
       return {
         ...category,
         total,
@@ -36,8 +35,7 @@ const AIInsights = () => {
 
     const totalSpent = monthlyExpenses.reduce((sum, exp) => sum + exp.amount, 0);
     const dailyAverage = totalSpent / new Date().getDate();
-    
-    // Generate insights
+
     const newInsights = [];
 
     // High spending categories
@@ -120,36 +118,45 @@ const AIInsights = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card rounded-futuristic p-6"
+      className="glass-card rounded-futuristic p-4 sm:p-6 w-full"
     >
-      <div className="flex items-center gap-3 mb-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4 sm:mb-6">
         <div className="p-2 bg-[#00D1FF] rounded-full">
           <Brain className="w-6 h-6 text-[#1A1A1A]" />
         </div>
         <div>
           <h2 className="heading-2">AI Insights</h2>
-          <p className="body-text-light">Smart analysis of your spending patterns</p>
+          <p className="body-text-light text-sm sm:text-base">
+            Smart analysis of your spending patterns
+          </p>
         </div>
       </div>
 
       {/* Insights Summary */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div className="bg-[#2C3E50] rounded-futuristic p-4 text-center">
-          <p className="body-text-light text-sm">Total Analyzed</p>
-          <p className="text-accent heading-3">${analyzedData.totalSpent?.toFixed(2) || '0'}</p>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6 w-full">
+        <div className="bg-[#2C3E50] rounded-futuristic p-3 sm:p-4 text-center w-full">
+          <p className="body-text-light text-xs sm:text-sm">Total Analyzed</p>
+          <p className="text-accent text-lg sm:text-xl font-bold">
+            ${analyzedData.totalSpent?.toFixed(2) || '0'}
+          </p>
         </div>
-        <div className="bg-[#2C3E50] rounded-futuristic p-4 text-center">
-          <p className="body-text-light text-sm">Transactions</p>
-          <p className="text-accent heading-3">{analyzedData.transactionCount || 0}</p>
+        <div className="bg-[#2C3E50] rounded-futuristic p-3 sm:p-4 text-center w-full">
+          <p className="body-text-light text-xs sm:text-sm">Transactions</p>
+          <p className="text-accent text-lg sm:text-xl font-bold">
+            {analyzedData.transactionCount || 0}
+          </p>
         </div>
-        <div className="bg-[#2C3E50] rounded-futuristic p-4 text-center">
-          <p className="body-text-light text-sm">Daily Average</p>
-          <p className="text-accent heading-3">${analyzedData.dailyAverage?.toFixed(2) || '0'}</p>
+        <div className="bg-[#2C3E50] rounded-futuristic p-3 sm:p-4 text-center w-full">
+          <p className="body-text-light text-xs sm:text-sm">Daily Average</p>
+          <p className="text-accent text-lg sm:text-xl font-bold">
+            ${analyzedData.dailyAverage?.toFixed(2) || '0'}
+          </p>
         </div>
       </div>
 
-      {/* AI Insights List */}
-      <div className="space-y-4">
+      {/* Insights List */}
+      <div className="space-y-3 sm:space-y-4 w-full">
         {analyzedData.insights?.length > 0 ? (
           analyzedData.insights.map((insight, index) => {
             const Icon = insight.icon;
@@ -159,14 +166,14 @@ const AIInsights = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`p-4 rounded-futuristic border-l-4 ${getInsightColor(insight.type)}`}
+                className={`p-3 sm:p-4 rounded-futuristic border-l-4 w-full ${getInsightColor(insight.type)}`}
               >
                 <div className="flex items-start gap-3">
                   <Icon className={`w-5 h-5 mt-0.5 flex-shrink-0 ${getIconColor(insight.type)}`} />
                   <div className="flex-1 min-w-0">
-                    <h3 className="body-text font-semibold mb-1">{insight.title}</h3>
-                    <p className="body-text-light text-sm mb-2">{insight.message}</p>
-                    <p className="body-text text-sm text-accent">{insight.suggestion}</p>
+                    <h3 className="body-text font-semibold mb-1 text-sm sm:text-base">{insight.title}</h3>
+                    <p className="body-text-light text-xs sm:text-sm mb-1">{insight.message}</p>
+                    <p className="body-text text-xs sm:text-sm text-accent">{insight.suggestion}</p>
                   </div>
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 mt-2 ${
                     insight.severity === 'high' ? 'bg-warning' :
@@ -177,19 +184,19 @@ const AIInsights = () => {
             );
           })
         ) : (
-          <div className="text-center py-8">
+          <div className="text-center py-6 sm:py-8 w-full">
             <Brain className="w-12 h-12 text-[#BDC3C7] mx-auto mb-3" />
-            <p className="body-text-light">No insights yet</p>
-            <p className="body-text-light text-sm">Add more expenses to get AI-powered insights</p>
+            <p className="body-text-light text-sm sm:text-base">No insights yet</p>
+            <p className="body-text-light text-xs sm:text-sm">Add more expenses to get AI-powered insights</p>
           </div>
         )}
       </div>
 
       {/* Spending by Category */}
       {analyzedData.categorySpending?.length > 0 && (
-        <div className="mt-6">
-          <h3 className="heading-3 mb-4">Spending by Category</h3>
-          <div className="space-y-3">
+        <div className="mt-6 w-full">
+          <h3 className="heading-3 mb-4 text-sm sm:text-base">Spending by Category</h3>
+          <div className="space-y-3 sm:space-y-4">
             {analyzedData.categorySpending
               .sort((a, b) => b.total - a.total)
               .map((category, index) => (
@@ -198,20 +205,18 @@ const AIInsights = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="flex items-center justify-between p-3 bg-[#2C3E50] rounded-futuristic hover:bg-[#34495E] transition-all"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 bg-[#2C3E50] rounded-futuristic hover:bg-[#34495E] transition-all w-full"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 mb-1 sm:mb-0">
                     <div
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: category.color }}
                     />
-                    <span className="body-text font-medium">{category.name}</span>
+                    <span className="body-text font-medium text-sm sm:text-base">{category.name}</span>
                   </div>
                   <div className="text-right">
-                    <p className="body-text font-semibold">${category.total.toFixed(2)}</p>
-                    <p className="body-text-light text-xs">
-                      {category.transactionCount} transactions
-                    </p>
+                    <p className="body-text font-semibold text-sm sm:text-base">${category.total.toFixed(2)}</p>
+                    <p className="body-text-light text-xs sm:text-sm">{category.transactionCount} transactions</p>
                   </div>
                 </motion.div>
               ))}

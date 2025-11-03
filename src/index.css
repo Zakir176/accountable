@@ -276,3 +276,34 @@ body {
     min-width: 0;
   }
 }
+
+/* Ensure full width and prevent overflow */
+.w-full {
+  width: 100%;
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+/* Better responsive text */
+.text-responsive {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+/* Prevent horizontal scroll */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Better grid responsiveness */
+.grid-responsive {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+/* Ensure cards don't overflow */
+.glass-card {
+  max-width: 100%;
+  box-sizing: border-box;
+}

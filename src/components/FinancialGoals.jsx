@@ -42,21 +42,23 @@ const FinancialGoals = () => {
   };
 
   const updateGoalProgress = (goalId, amount) => {
-    setGoals(prev => prev.map(goal => {
-      if (goal.id === goalId) {
-        const newAmount = goal.currentAmount + amount;
-        const progress = (newAmount / goal.targetAmount) * 100;
-        return { ...goal, currentAmount: newAmount, progress };
-      }
-      return goal;
-    }));
+    setGoals(prev =>
+      prev.map(goal => {
+        if (goal.id === goalId) {
+          const newAmount = goal.currentAmount + amount;
+          const progress = (newAmount / goal.targetAmount) * 100;
+          return { ...goal, currentAmount: newAmount, progress };
+        }
+        return goal;
+      })
+    );
   };
 
-  const deleteGoal = (goalId) => {
+  const deleteGoal = goalId => {
     setGoals(prev => prev.filter(goal => goal.id !== goalId));
   };
 
-  const getDaysUntilDeadline = (deadline) => {
+  const getDaysUntilDeadline = deadline => {
     if (!deadline) return null;
     const today = new Date();
     const deadlineDate = new Date(deadline);
@@ -65,11 +67,8 @@ const FinancialGoals = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="glass-card rounded-futuristic p-6"
-    >
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card rounded-futuristic p-6">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h2 className="heading-2 mb-2">Financial Goals</h2>
@@ -98,75 +97,57 @@ const FinancialGoals = () => {
         </div>
         <div className="bg-[#2C3E50] rounded-futuristic p-4 text-center">
           <p className="body-text-light text-sm">Completed</p>
-          <p className="text-success heading-3">
-            {goals.filter(g => g.progress >= 100).length}
-          </p>
+          <p className="text-success heading-3">{goals.filter(g => g.progress >= 100).length}</p>
         </div>
       </div>
 
       {/* Add Goal Form */}
       {isAddingGoal && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          className="mb-6 p-4 bg-[#2C3E50] rounded-futuristic space-y-4"
-        >
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mb-6 p-4 bg-[#2C3E50] rounded-futuristic space-y-4">
           <h3 className="heading-3">Create New Goal</h3>
-          
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
               type="text"
               placeholder="Goal name (e.g., New Car, Vacation)"
               value={newGoal.name}
-              onChange={(e) => setNewGoal({ ...newGoal, name: e.target.value })}
+              onChange={e => setNewGoal({ ...newGoal, name: e.target.value })}
               className="glass-input px-4 py-3 col-span-2"
             />
-            
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#BDC3C7]">$</span>
               <input
                 type="number"
                 placeholder="Target amount"
                 value={newGoal.targetAmount}
-                onChange={(e) => setNewGoal({ ...newGoal, targetAmount: e.target.value })}
+                onChange={e => setNewGoal({ ...newGoal, targetAmount: e.target.value })}
                 className="w-full glass-input pl-8 pr-4 py-3"
               />
             </div>
-
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#BDC3C7]">$</span>
               <input
                 type="number"
                 placeholder="Current amount"
                 value={newGoal.currentAmount}
-                onChange={(e) => setNewGoal({ ...newGoal, currentAmount: e.target.value })}
+                onChange={e => setNewGoal({ ...newGoal, currentAmount: e.target.value })}
                 className="w-full glass-input pl-8 pr-4 py-3"
               />
             </div>
-
             <div className="relative col-span-2 sm:col-span-1">
               <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#BDC3C7] w-4 h-4" />
               <input
                 type="date"
                 value={newGoal.deadline}
-                onChange={(e) => setNewGoal({ ...newGoal, deadline: e.target.value })}
+                onChange={e => setNewGoal({ ...newGoal, deadline: e.target.value })}
                 className="w-full glass-input pl-10 pr-4 py-3"
               />
             </div>
           </div>
-
           <div className="flex gap-3">
-            <button
-              onClick={addGoal}
-              className="btn-primary flex-1 py-3"
-              disabled={!newGoal.name || !newGoal.targetAmount}
-            >
+            <button onClick={addGoal} className="btn-primary flex-1 py-3" disabled={!newGoal.name || !newGoal.targetAmount}>
               Create Goal
             </button>
-            <button
-              onClick={() => setIsAddingGoal(false)}
-              className="btn-secondary px-6 py-3"
-            >
+            <button onClick={() => setIsAddingGoal(false)} className="btn-secondary px-6 py-3">
               Cancel
             </button>
           </div>
@@ -178,7 +159,7 @@ const FinancialGoals = () => {
         {goals.map((goal, index) => {
           const daysLeft = getDaysUntilDeadline(goal.deadline);
           const isCompleted = goal.progress >= 100;
-          
+
           return (
             <motion.div
               key={goal.id}
@@ -186,21 +167,13 @@ const FinancialGoals = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
               className={`p-4 rounded-futuristic border-2 transition-all ${
-                isCompleted 
-                  ? 'bg-[#39FF14]/10 border-[#39FF14]/30' 
-                  : 'bg-[#2C3E50] border-[#2C3E50] hover:border-[#00D1FF]/30'
+                isCompleted ? 'bg-[#39FF14]/10 border-[#39FF14]/30' : 'bg-[#2C3E50] border-[#2C3E50] hover:border-[#00D1FF]/30'
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <div className={`p-2 rounded-full ${
-                    isCompleted ? 'bg-[#39FF14]' : 'bg-[#00D1FF]'
-                  }`}>
-                    {isCompleted ? (
-                      <Trophy className="w-5 h-5 text-[#1A1A1A]" />
-                    ) : (
-                      <Target className="w-5 h-5 text-[#1A1A1A]" />
-                    )}
+                  <div className={`p-2 rounded-full ${isCompleted ? 'bg-[#39FF14]' : 'bg-[#00D1FF]'}`}>
+                    {isCompleted ? <Trophy className="w-5 h-5 text-[#1A1A1A]" /> : <Target className="w-5 h-5 text-[#1A1A1A]" />}
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="body-text font-semibold truncate">{goal.name}</h3>
@@ -209,9 +182,7 @@ const FinancialGoals = () => {
                         ${goal.currentAmount.toFixed(2)} / ${goal.targetAmount.toFixed(2)}
                       </p>
                       {daysLeft && (
-                        <p className="body-text-light text-sm">
-                          {daysLeft > 0 ? `${daysLeft} days left` : 'Deadline passed'}
-                        </p>
+                        <p className="body-text-light text-sm">{daysLeft > 0 ? `${daysLeft} days left` : 'Deadline passed'}</p>
                       )}
                     </div>
                   </div>
@@ -219,21 +190,10 @@ const FinancialGoals = () => {
 
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <p className={`text-sm font-semibold ${
-                      isCompleted ? 'text-success' : 'text-accent'
-                    }`}>
-                      {goal.progress.toFixed(1)}%
-                    </p>
-                    <p className="body-text-light text-xs">
-                      {isCompleted ? 'Completed! 🎉' : 'Progress'}
-                    </p>
+                    <p className={`text-sm font-semibold ${isCompleted ? 'text-success' : 'text-accent'}`}>{goal.progress.toFixed(1)}%</p>
+                    <p className="body-text-light text-xs">{isCompleted ? 'Completed! 🎉' : 'Progress'}</p>
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => deleteGoal(goal.id)}
-                    className="text-[#BDC3C7] hover:text-[#FF4500] p-2 transition-colors"
-                  >
+                  <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={() => deleteGoal(goal.id)} className="text-[#BDC3C7] hover:text-[#FF4500] p-2 transition-colors">
                     <Trash2 className="w-4 h-4" />
                   </motion.button>
                 </div>
@@ -246,9 +206,7 @@ const FinancialGoals = () => {
                     initial={{ width: 0 }}
                     animate={{ width: `${Math.min(goal.progress, 100)}%` }}
                     transition={{ duration: 1, delay: 0.5 }}
-                    className={`h-2 rounded-full ${
-                      isCompleted ? 'bg-success' : 'bg-accent'
-                    }`}
+                    className={`h-2 rounded-full ${isCompleted ? 'bg-success' : 'bg-accent'}`}
                   />
                 </div>
               </div>
@@ -256,16 +214,10 @@ const FinancialGoals = () => {
               {/* Quick Actions */}
               {!isCompleted && (
                 <div className="flex gap-2 mt-3">
-                  <button
-                    onClick={() => updateGoalProgress(goal.id, 100)}
-                    className="text-xs bg-[#00D1FF] text-[#1A1A1A] px-3 py-1 rounded-full font-semibold hover:bg-[#009ACD] transition-colors"
-                  >
+                  <button onClick={() => updateGoalProgress(goal.id, 100)} className="text-xs bg-[#00D1FF] text-[#1A1A1A] px-3 py-1 rounded-full font-semibold hover:bg-[#009ACD] transition-colors">
                     +$100
                   </button>
-                  <button
-                    onClick={() => updateGoalProgress(goal.id, 500)}
-                    className="text-xs bg-[#39FF14] text-[#1A1A1A] px-3 py-1 rounded-full font-semibold hover:bg-[#2CD100] transition-colors"
-                  >
+                  <button onClick={() => updateGoalProgress(goal.id, 500)} className="text-xs bg-[#39FF14] text-[#1A1A1A] px-3 py-1 rounded-full font-semibold hover:bg-[#2CD100] transition-colors">
                     +$500
                   </button>
                 </div>

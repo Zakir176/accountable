@@ -15,7 +15,8 @@ const initialState = {
   budgets: {
     monthly: 1200,
     yearly: 14400
-  }
+  },
+  theme: 'dark' // <- Added theme support
 };
 
 // Action types
@@ -26,7 +27,8 @@ const actionTypes = {
   ADD_CATEGORY: 'ADD_CATEGORY',
   DELETE_CATEGORY: 'DELETE_CATEGORY',
   UPDATE_BUDGET: 'UPDATE_BUDGET',
-  LOAD_DATA: 'LOAD_DATA'
+  LOAD_DATA: 'LOAD_DATA',
+  SET_THEME: 'SET_THEME' // <- Added
 };
 
 // Reducer
@@ -79,6 +81,12 @@ const appReducer = (state, action) => {
       return {
         ...state,
         ...action.payload
+      };
+
+    case actionTypes.SET_THEME:
+      return {
+        ...state,
+        theme: action.payload
       };
     
     default:
@@ -143,6 +151,10 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: actionTypes.UPDATE_BUDGET, payload: budgets });
   };
 
+  const setTheme = (theme) => {
+    dispatch({ type: actionTypes.SET_THEME, payload: theme });
+  };
+
   // Calculate totals
   const getTotals = () => {
     const currentMonth = new Date().getMonth();
@@ -183,7 +195,8 @@ export const AppProvider = ({ children }) => {
     addCategory,
     deleteCategory,
     updateBudget,
-    getTotals
+    getTotals,
+    setTheme // <- Exposed theme setter
   };
 
   return (

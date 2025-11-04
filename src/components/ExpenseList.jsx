@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Trash2, Edit } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useTheme } from '../context/ThemeContext';
 import ExpenseForm from './ExpenseForm';
 
 const ExpenseList = ({ expenses: propExpenses }) => {
   const { expenses, categories, deleteExpense } = useApp();
+  const { isDark } = useTheme();
   const [editingExpense, setEditingExpense] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -38,7 +40,7 @@ const ExpenseList = ({ expenses: propExpenses }) => {
         animate={{ opacity: 1, y: 0 }}
         className="glass-card rounded-futuristic p-6 text-center"
       >
-        <h2 className="heading-2 mb-2">No Expenses Yet</h2>
+        <h2 className="heading-2 mb-2 text-primary">No Expenses Yet</h2>
         <p className="body-text-light">Add your first expense to get started!</p>
       </motion.div>
     );
@@ -51,7 +53,7 @@ const ExpenseList = ({ expenses: propExpenses }) => {
         animate={{ opacity: 1, y: 0 }}
         className="glass-card rounded-futuristic p-6"
       >
-        <h2 className="heading-2 mb-4">Recent Activity</h2>
+        <h2 className="heading-2 mb-4 text-primary">Recent Activity</h2>
         <div className="space-y-3">
           {sortedExpenses.map((expense, index) => {
             const category = getCategoryById(expense.categoryId);
@@ -63,19 +65,19 @@ const ExpenseList = ({ expenses: propExpenses }) => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between p-4 rounded-futuristic bg-[#2C3E50] hover:bg-[#34495E] transition-all group"
+                className="flex items-center justify-between p-4 rounded-futuristic bg-secondary hover:bg-[var(--border-color)] transition-all group"
               >
                 <div className="flex items-center space-x-4">
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform"
                     style={{ backgroundColor: category.color }}
                   >
-                    <span className="text-[#1A1A1A] font-bold text-sm">
+                    <span className="text-white font-bold text-sm">
                       {category.name[0]}
                     </span>
                   </div>
                   <div>
-                    <p className="body-text font-semibold">{expense.description}</p>
+                    <p className="body-text font-semibold text-primary">{expense.description}</p>
                     <p className="body-text-light">{category.name} • {expenseDate}</p>
                   </div>
                 </div>
@@ -92,7 +94,7 @@ const ExpenseList = ({ expenses: propExpenses }) => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => handleEdit(expense)}
-                    className="text-[#BDC3C7] hover:text-[#00D1FF] p-2 transition-colors"
+                    className="text-secondary hover:text-accent p-2 transition-colors"
                   >
                     <Edit className="w-4 h-4" />
                   </motion.button>
@@ -100,7 +102,7 @@ const ExpenseList = ({ expenses: propExpenses }) => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => deleteExpense(expense.id)}
-                    className="text-[#BDC3C7] hover:text-[#FF4500] p-2 transition-colors"
+                    className="text-secondary hover:text-warning p-2 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </motion.button>

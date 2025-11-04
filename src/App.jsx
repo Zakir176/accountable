@@ -1,9 +1,10 @@
-// src/App.jsx - UPDATED
+// src/App.jsx - FINAL MERGED VERSION
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, PieChart, Settings, Home, Menu, X } from 'lucide-react';
 import { AppProvider } from './context/AppContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { CurrencyProvider } from './context/CurrencyContext';
 import ExpenseForm from './components/ExpenseForm';
 import Dashboard from './components/Dashboard';
 import Analytics from './components/Analytics';
@@ -19,21 +20,25 @@ function AppContent() {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard 
-          onAddExpense={() => setIsFormOpen(true)}
-          onViewAnalytics={() => setActiveTab('analytics')}
-          onOpenSettings={() => setActiveTab('settings')}
-        />;
+        return (
+          <Dashboard 
+            onAddExpense={() => setIsFormOpen(true)}
+            onViewAnalytics={() => setActiveTab('analytics')}
+            onOpenSettings={() => setActiveTab('settings')}
+          />
+        );
       case 'analytics':
         return <Analytics />;
       case 'settings':
         return <SettingsPage />;
       default:
-        return <Dashboard 
-          onAddExpense={() => setIsFormOpen(true)}
-          onViewAnalytics={() => setActiveTab('analytics')}
-          onOpenSettings={() => setActiveTab('settings')}
-        />;
+        return (
+          <Dashboard 
+            onAddExpense={() => setIsFormOpen(true)}
+            onViewAnalytics={() => setActiveTab('analytics')}
+            onOpenSettings={() => setActiveTab('settings')}
+          />
+        );
     }
   };
 
@@ -51,7 +56,6 @@ function AppContent() {
         animate={{ x: 0 }}
         className="hidden lg:flex fixed left-0 top-0 h-full w-80 glass-dark border-r border-border-color z-30 flex-col"
       >
-        {/* Logo/Header */}
         <div className="p-6 border-b border-border-color">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -63,7 +67,6 @@ function AppContent() {
           </motion.div>
         </div>
 
-        {/* Navigation */}
         <div className="flex-1 p-6 space-y-2">
           {navItems.map((item) => (
             <motion.button
@@ -83,7 +86,6 @@ function AppContent() {
           ))}
         </div>
 
-        {/* User Area */}
         <div className="p-6 border-t border-border-color">
           <div className="flex items-center justify-between">
             <ThemeToggle />
@@ -101,7 +103,6 @@ function AppContent() {
         className="lg:hidden fixed top-0 left-0 right-0 glass-dark border-b border-border-color z-40"
       >
         <div className="flex items-center justify-between p-4">
-          {/* Mobile Menu Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -115,23 +116,16 @@ function AppContent() {
             )}
           </motion.button>
 
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
             <h1 className="text-xl font-bold text-glow text-primary">Accountable</h1>
           </motion.div>
 
-          {/* Header Actions */}
           <div className="flex gap-2">
             <Notifications />
             <ThemeToggle />
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
@@ -166,10 +160,8 @@ function AppContent() {
         </AnimatePresence>
       </motion.header>
 
-      {/* Main Content Area */}
-      <main className={`min-h-screen transition-all duration-300 ${
-        isMobileMenuOpen ? 'blur-sm' : ''
-      } lg:ml-80`}>
+      {/* Main Content */}
+      <main className={`min-h-screen transition-all duration-300 ${isMobileMenuOpen ? 'blur-sm' : ''} lg:ml-80`}>
         <div className="pt-16 lg:pt-0 pb-24 lg:pb-0">
           <AnimatePresence mode="wait">
             <motion.div
@@ -207,7 +199,7 @@ function AppContent() {
         </div>
       </nav>
 
-      {/* Floating Action Button - Mobile Only */}
+      {/* Floating Action Button - Mobile */}
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -217,7 +209,7 @@ function AppContent() {
         <Plus className="w-6 h-6 text-white" />
       </motion.button>
 
-      {/* Desktop Add Button - In Sidebar */}
+      {/* Desktop Add Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -241,9 +233,11 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <AppProvider>
-        <AppContent />
-      </AppProvider>
+      <CurrencyProvider>
+        <AppProvider>
+          <AppContent />
+        </AppProvider>
+      </CurrencyProvider>
     </ThemeProvider>
   );
 }

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, X, Calendar } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useTheme } from '../context/ThemeContext';
 
 const SearchFilter = ({ onFilterChange }) => {
   const { categories } = useApp();
+  const { isDark } = useTheme();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     search: '',
@@ -43,13 +45,13 @@ const SearchFilter = ({ onFilterChange }) => {
       {/* Search Bar */}
       <div className="flex gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#BDC3C7] w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary w-5 h-5" />
           <input
             type="text"
             placeholder="Search expenses..."
             value={filters.search}
             onChange={(e) => handleFilterChange('search', e.target.value)}
-            className="w-full glass-input pl-10 pr-4 py-3 placeholder-[#BDC3C7]"
+            className="w-full glass-input pl-10 pr-4 py-3 placeholder-secondary"
           />
         </div>
         
@@ -58,12 +60,12 @@ const SearchFilter = ({ onFilterChange }) => {
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsFilterOpen(!isFilterOpen)}
           className={`glass-button px-4 rounded-futuristic flex items-center gap-2 ${
-            hasActiveFilters ? 'text-[#00D1FF]' : 'text-[#BDC3C7]'
+            hasActiveFilters ? 'text-accent' : 'text-secondary'
           }`}
         >
           <Filter className="w-4 h-4" />
           {hasActiveFilters && (
-            <div className="w-2 h-2 bg-[#00D1FF] rounded-full"></div>
+            <div className="w-2 h-2 bg-accent rounded-full"></div>
           )}
         </motion.button>
       </div>
@@ -78,12 +80,12 @@ const SearchFilter = ({ onFilterChange }) => {
             className="glass-card rounded-futuristic p-4 space-y-4 overflow-hidden"
           >
             <div className="flex items-center justify-between">
-              <h3 className="heading-3">Filters</h3>
+              <h3 className="heading-3 text-primary">Filters</h3>
               <div className="flex gap-2">
                 {hasActiveFilters && (
                   <button
                     onClick={clearFilters}
-                    className="text-[#BDC3C7] hover:text-[#ECF0F1] text-sm flex items-center gap-1"
+                    className="text-secondary hover:text-primary text-sm flex items-center gap-1"
                   >
                     <X className="w-4 h-4" />
                     Clear
@@ -126,7 +128,7 @@ const SearchFilter = ({ onFilterChange }) => {
               <div className="space-y-2">
                 <label className="body-text-light text-sm">From Date</label>
                 <div className="relative">
-                  <Calendar className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#BDC3C7] w-4 h-4" />
+                  <Calendar className="absolute left-2 top-1/2 transform -translate-y-1/2 text-secondary w-4 h-4" />
                   <input
                     type="date"
                     value={filters.dateFrom}
@@ -139,7 +141,7 @@ const SearchFilter = ({ onFilterChange }) => {
               <div className="space-y-2">
                 <label className="body-text-light text-sm">To Date</label>
                 <div className="relative">
-                  <Calendar className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#BDC3C7] w-4 h-4" />
+                  <Calendar className="absolute left-2 top-1/2 transform -translate-y-1/2 text-secondary w-4 h-4" />
                   <input
                     type="date"
                     value={filters.dateTo}
@@ -153,7 +155,7 @@ const SearchFilter = ({ onFilterChange }) => {
               <div className="space-y-2">
                 <label className="body-text-light text-sm">Min Amount</label>
                 <div className="relative">
-                  <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#BDC3C7] text-sm">$</span>
+                  <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-secondary text-sm">$</span>
                   <input
                     type="number"
                     placeholder="0"
@@ -167,7 +169,7 @@ const SearchFilter = ({ onFilterChange }) => {
               <div className="space-y-2">
                 <label className="body-text-light text-sm">Max Amount</label>
                 <div className="relative">
-                  <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#BDC3C7] text-sm">$</span>
+                  <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-secondary text-sm">$</span>
                   <input
                     type="number"
                     placeholder="Any"

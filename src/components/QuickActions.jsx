@@ -1,42 +1,45 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Target, TrendingUp, Download, Settings } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 
 const QuickActions = ({ onAddExpense, onViewGoals, onViewAnalytics, onExportData, onOpenSettings }) => {
+  const { isDark } = useTheme();
+
   const actions = [
     {
       icon: Plus,
       label: 'Add Expense',
       description: 'Record new transaction',
-      color: 'bg-[#00D1FF]',
+      color: isDark ? 'bg-[#00D1FF]' : 'bg-[#007BFF]',
       onClick: onAddExpense
     },
     {
       icon: Target,
       label: 'Goals',
       description: 'Track savings targets',
-      color: 'bg-[#39FF14]',
+      color: isDark ? 'bg-[#39FF14]' : 'bg-[#28A745]',
       onClick: onViewGoals
     },
     {
       icon: TrendingUp,
       label: 'Analytics',
       description: 'View insights',
-      color: 'bg-[#8E44AD]',
+      color: isDark ? 'bg-[#8E44AD]' : 'bg-[#6F42C1]',
       onClick: onViewAnalytics
     },
     {
       icon: Download,
       label: 'Export',
       description: 'Backup data',
-      color: 'bg-[#FF4500]',
+      color: isDark ? 'bg-[#FF4500]' : 'bg-[#DC3545]',
       onClick: onExportData
     },
     {
       icon: Settings,
       label: 'Settings',
       description: 'Customize app',
-      color: 'bg-[#BDC3C7]',
+      color: isDark ? 'bg-[#BDC3C7]' : 'bg-[#6C757D]',
       onClick: onOpenSettings
     }
   ];
@@ -47,7 +50,7 @@ const QuickActions = ({ onAddExpense, onViewGoals, onViewAnalytics, onExportData
       animate={{ opacity: 1, y: 0 }}
       className="glass-card rounded-futuristic p-4 sm:p-6 w-full"
     >
-      <h2 className="heading-2 mb-3 sm:mb-4">Quick Actions</h2>
+      <h2 className="heading-2 mb-3 sm:mb-4 text-primary">Quick Actions</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 lg:gap-4 w-full">
         {actions.map((action, index) => (
           <motion.button
@@ -58,12 +61,12 @@ const QuickActions = ({ onAddExpense, onViewGoals, onViewAnalytics, onExportData
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={action.onClick}
-            className="flex flex-col items-center p-2 sm:p-3 lg:p-4 rounded-futuristic bg-[#2C3E50] hover:bg-[#34495E] transition-all group w-full min-w-0"
+            className="flex flex-col items-center p-2 sm:p-3 lg:p-4 rounded-futuristic bg-secondary hover:bg-[var(--border-color)] transition-all group w-full min-w-0"
           >
             <div className={`p-2 sm:p-3 rounded-full mb-2 sm:mb-3 group-hover:scale-110 transition-transform ${action.color}`}>
-              <action.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#1A1A1A]" />
+              <action.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
-            <span className="body-text font-semibold text-center text-xs sm:text-sm mb-1 truncate w-full">
+            <span className="body-text font-semibold text-center text-xs sm:text-sm mb-1 truncate w-full text-primary">
               {action.label}
             </span>
             <span className="body-text-light text-xs text-center hidden sm:block truncate w-full">

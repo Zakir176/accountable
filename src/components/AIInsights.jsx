@@ -1,3 +1,4 @@
+// AIInsights.jsx (Light Mode)
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, TrendingUp, AlertTriangle, Lightbulb, Zap } from 'lucide-react';
@@ -100,17 +101,17 @@ const AIInsights = () => {
 
   const getInsightColor = (type) => {
     switch (type) {
-      case 'warning': return 'border-warning bg-[#FF4500]/10';
-      case 'success': return 'border-success bg-[#39FF14]/10';
-      default: return 'border-accent bg-[#00D1FF]/10';
+      case 'warning': return 'border-orange-500 bg-orange-50';
+      case 'success': return 'border-green-500 bg-green-50';
+      default: return 'border-blue-500 bg-blue-50';
     }
   };
 
   const getIconColor = (type) => {
     switch (type) {
-      case 'warning': return 'text-warning';
-      case 'success': return 'text-success';
-      default: return 'text-accent';
+      case 'warning': return 'text-orange-500';
+      case 'success': return 'text-green-500';
+      default: return 'text-blue-500';
     }
   };
 
@@ -118,16 +119,16 @@ const AIInsights = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card rounded-futuristic p-4 sm:p-6 w-full"
+      className="glass-card-light rounded-futuristic p-4 sm:p-6 w-full"
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4 sm:mb-6">
-        <div className="p-2 bg-[#00D1FF] rounded-full">
-          <Brain className="w-6 h-6 text-[#1A1A1A]" />
+        <div className="p-2 bg-blue-500 rounded-full">
+          <Brain className="w-6 h-6 text-white" />
         </div>
         <div>
-          <h2 className="heading-2">AI Insights</h2>
-          <p className="body-text-light text-sm sm:text-base">
+          <h2 className="heading-2 text-gray-900">AI Insights</h2>
+          <p className="body-text-light text-sm sm:text-base text-gray-600">
             Smart analysis of your spending patterns
           </p>
         </div>
@@ -135,24 +136,19 @@ const AIInsights = () => {
 
       {/* Insights Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6 w-full">
-        <div className="bg-[#2C3E50] rounded-futuristic p-3 sm:p-4 text-center w-full">
-          <p className="body-text-light text-xs sm:text-sm">Total Analyzed</p>
-          <p className="text-accent text-lg sm:text-xl font-bold">
-            ${analyzedData.totalSpent?.toFixed(2) || '0'}
-          </p>
-        </div>
-        <div className="bg-[#2C3E50] rounded-futuristic p-3 sm:p-4 text-center w-full">
-          <p className="body-text-light text-xs sm:text-sm">Transactions</p>
-          <p className="text-accent text-lg sm:text-xl font-bold">
-            {analyzedData.transactionCount || 0}
-          </p>
-        </div>
-        <div className="bg-[#2C3E50] rounded-futuristic p-3 sm:p-4 text-center w-full">
-          <p className="body-text-light text-xs sm:text-sm">Daily Average</p>
-          <p className="text-accent text-lg sm:text-xl font-bold">
-            ${analyzedData.dailyAverage?.toFixed(2) || '0'}
-          </p>
-        </div>
+        {['Total Analyzed', 'Transactions', 'Daily Average'].map((label, i) => {
+          let value;
+          if (i === 0) value = `$${analyzedData.totalSpent?.toFixed(2) || '0'}`;
+          if (i === 1) value = analyzedData.transactionCount || 0;
+          if (i === 2) value = `$${analyzedData.dailyAverage?.toFixed(2) || '0'}`;
+
+          return (
+            <div key={i} className="bg-gray-100 rounded-futuristic p-3 sm:p-4 text-center w-full">
+              <p className="body-text-light text-xs sm:text-sm text-gray-600">{label}</p>
+              <p className="text-blue-600 text-lg sm:text-xl font-bold">{value}</p>
+            </div>
+          );
+        })}
       </div>
 
       {/* Insights List */}
@@ -171,13 +167,13 @@ const AIInsights = () => {
                 <div className="flex items-start gap-3">
                   <Icon className={`w-5 h-5 mt-0.5 flex-shrink-0 ${getIconColor(insight.type)}`} />
                   <div className="flex-1 min-w-0">
-                    <h3 className="body-text font-semibold mb-1 text-sm sm:text-base">{insight.title}</h3>
-                    <p className="body-text-light text-xs sm:text-sm mb-1">{insight.message}</p>
-                    <p className="body-text text-xs sm:text-sm text-accent">{insight.suggestion}</p>
+                    <h3 className="body-text font-semibold mb-1 text-sm sm:text-base text-gray-900">{insight.title}</h3>
+                    <p className="body-text-light text-xs sm:text-sm mb-1 text-gray-700">{insight.message}</p>
+                    <p className="body-text text-xs sm:text-sm text-blue-600">{insight.suggestion}</p>
                   </div>
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 mt-2 ${
-                    insight.severity === 'high' ? 'bg-warning' :
-                    insight.severity === 'medium' ? 'bg-accent' : 'bg-success'
+                    insight.severity === 'high' ? 'bg-orange-500' :
+                    insight.severity === 'medium' ? 'bg-blue-500' : 'bg-green-500'
                   }`} />
                 </div>
               </motion.div>
@@ -185,9 +181,9 @@ const AIInsights = () => {
           })
         ) : (
           <div className="text-center py-6 sm:py-8 w-full">
-            <Brain className="w-12 h-12 text-[#BDC3C7] mx-auto mb-3" />
-            <p className="body-text-light text-sm sm:text-base">No insights yet</p>
-            <p className="body-text-light text-xs sm:text-sm">Add more expenses to get AI-powered insights</p>
+            <Brain className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+            <p className="body-text-light text-sm sm:text-base text-gray-600">No insights yet</p>
+            <p className="body-text-light text-xs sm:text-sm text-gray-500">Add more expenses to get AI-powered insights</p>
           </div>
         )}
       </div>
@@ -195,7 +191,7 @@ const AIInsights = () => {
       {/* Spending by Category */}
       {analyzedData.categorySpending?.length > 0 && (
         <div className="mt-6 w-full">
-          <h3 className="heading-3 mb-4 text-sm sm:text-base">Spending by Category</h3>
+          <h3 className="heading-3 mb-4 text-sm sm:text-base text-gray-900">Spending by Category</h3>
           <div className="space-y-3 sm:space-y-4">
             {analyzedData.categorySpending
               .sort((a, b) => b.total - a.total)
@@ -205,18 +201,18 @@ const AIInsights = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 bg-[#2C3E50] rounded-futuristic hover:bg-[#34495E] transition-all w-full"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 bg-gray-100 rounded-futuristic hover:bg-gray-200 transition-all w-full"
                 >
                   <div className="flex items-center gap-3 mb-1 sm:mb-0">
                     <div
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: category.color }}
                     />
-                    <span className="body-text font-medium text-sm sm:text-base">{category.name}</span>
+                    <span className="body-text font-medium text-sm sm:text-base text-gray-900">{category.name}</span>
                   </div>
                   <div className="text-right">
-                    <p className="body-text font-semibold text-sm sm:text-base">${category.total.toFixed(2)}</p>
-                    <p className="body-text-light text-xs sm:text-sm">{category.transactionCount} transactions</p>
+                    <p className="body-text font-semibold text-sm sm:text-base text-gray-900">${category.total.toFixed(2)}</p>
+                    <p className="body-text-light text-xs sm:text-sm text-gray-700">{category.transactionCount} transactions</p>
                   </div>
                 </motion.div>
               ))}

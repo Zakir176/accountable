@@ -2,7 +2,7 @@
 
 ![Accountable Banner](https://via.placeholder.com/1200x400/1A1A1A/00D1FF?text=Accountable+-+Premium+Expense+Tracker)
 
-A futuristic expense tracker with beautiful animations and comprehensive financial insights.
+An expense tracker with beautiful animations and comprehensive financial insights.
 
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3.6-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)

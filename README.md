@@ -42,13 +42,18 @@ An expense tracker with beautiful animations and comprehensive financial insight
 ## 🎥 Demo
 
 ### 📱 Mobile Experience
-![Mobile Demo](https://via.placeholder.com/300x600/1A1A1A/00D1FF?text=Mobile+View)
+> Note: Mobile screenshots coming soon.
+
 - Bottom navigation
 - Floating action button
 - Touch-optimized interface
 
 ### 💻 Desktop Experience
-![Desktop Demo](https://via.placeholder.com/800x450/1A1A1A/00D1FF?text=Desktop+View)
+![Dashboard](snippets/screenshot-1.png)
+![Expenses](snippets/screenshot-2.png)
+![Analytics](snippets/screenshot-3.png)
+![Settings](snippets/screenshot-4.png)
+
 - Fixed sidebar navigation
 - Multi-column dashboard
 - Hover interactions
